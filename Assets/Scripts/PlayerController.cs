@@ -6,18 +6,17 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("Parts")]
-    [SerializeField] private Transform visual;
-    [SerializeField] private Transform cannon;
+    [SerializeField] private Transform visual, cannon;
     [SerializeField] private GameObject bullet;
     [Header("Specs")]
-    [SerializeField] private float speed = 5f;
+    [SerializeField] private float speed = 5f, fireDelta = 1f;
     [SerializeField] private short health = 3;
-    [SerializeField] private float fireDelta = 1f;
     //inputs
     private Vector2 rootMousePos;
     private float inputHorizontal = 0;
 
     private bool canFire = true;
+
 
     void Update()
     {
@@ -41,7 +40,9 @@ public class PlayerController : MonoBehaviour
             rootMousePos = Input.mousePosition;
         }
         else
+        {
             inputHorizontal = 0;
+        }
     }
 
     private void Move()
@@ -63,10 +64,15 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Bullet"))
+        if(collision.CompareTag("BulletEnemy"))
         {
             Destroy(collision.gameObject);
             health--;
+
+            if(health == 0)
+            {
+                //game over
+            }
         }
     }
 }
