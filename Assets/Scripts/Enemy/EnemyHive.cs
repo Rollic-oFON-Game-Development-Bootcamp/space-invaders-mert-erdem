@@ -8,9 +8,8 @@ public class EnemyHive : MonoBehaviour
     [SerializeField] private CircleCollider2D enemyCollider;
     [Header("Specs")]
     [SerializeField] private float speed = 2f;
-    [SerializeField] [Range(0f, 1f)] private float speedDelta = 0.1f;
+    [SerializeField] private float speedDelta = 0.001f;
     [SerializeField] private float fireDelta = 2f;
-    
     private float fallingDelta;
     private bool canFire = true, directionChanging = false;
 
@@ -38,7 +37,7 @@ public class EnemyHive : MonoBehaviour
         directionChanging = true;
         speed *= -1;
         speedDelta *= -1;
-        speed += speedDelta;
+        
         transform.transform.position -= new Vector3(0, fallingDelta, 0);
 
         yield return new WaitForEndOfFrame();
@@ -65,6 +64,14 @@ public class EnemyHive : MonoBehaviour
     public void LeaveHive(Enemy enemy)
     {
         enemies.Remove(enemy);
+
+        if(enemies.Count == 0)
+        {
+            HiveManager.Instance.SpawnHive();
+            Destroy(gameObject);
+        }
+
+        speed += speedDelta;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

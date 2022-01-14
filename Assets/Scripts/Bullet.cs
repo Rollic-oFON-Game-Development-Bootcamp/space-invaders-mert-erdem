@@ -16,7 +16,6 @@ public class Bullet : MonoBehaviour
         if (collision.CompareTag("Border") || collision.CompareTag("Base"))
             Destroy(gameObject);
 
-        //player bullet'ı düşman ile çarpıştı ya da bullet'ler çarpıştıysa
         if ((collision.CompareTag("Enemy") && gameObject.CompareTag("Bullet")) ||
             collision.CompareTag("Bullet") || collision.CompareTag("BulletEnemy"))
         {

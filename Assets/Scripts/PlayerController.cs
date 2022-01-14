@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject bullet;
     [Header("Specs")]
     [SerializeField] private float speed = 5f, fireDelta = 1f;
-    [SerializeField] private short health = 3;
+    [SerializeField] private int health = 3;
     //inputs
     private Vector2 rootMousePos;
     private float inputHorizontal = 0;
@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         var newPlayerPos = visual.transform.localPosition;
-        newPlayerPos.x = Mathf.Clamp(newPlayerPos.x + inputHorizontal * speed * Time.smoothDeltaTime, -2f, 2f);
+        newPlayerPos.x = Mathf.Clamp(newPlayerPos.x + inputHorizontal * speed * Time.smoothDeltaTime, -2.3f, 2.3f);
         visual.transform.localPosition = newPlayerPos;
     }
 
@@ -68,6 +68,7 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(collision.gameObject);
             health--;
+            CanvasController.Instance.UpdateHealthText(health);
 
             if(health == 0)
             {
