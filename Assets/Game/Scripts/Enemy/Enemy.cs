@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Transform cannon;
     [SerializeField] private GameObject bullet;
 
-    private void Awake()
+    private void Start()
     {
         enemyHive.JoinHive(this);
     }

@@ -13,11 +13,17 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Border") || collision.CompareTag("Base"))
+        if (collision.CompareTag("Border") || collision.CompareTag("Base") || collision.CompareTag("Shield"))
             Destroy(gameObject);
 
-        if ((collision.CompareTag("Enemy") && gameObject.CompareTag("Bullet")) ||
-            collision.CompareTag("Bullet") || collision.CompareTag("BulletEnemy"))
+        if (collision.CompareTag("Enemy") && gameObject.CompareTag("Bullet"))
+        {
+            Destroy(collision.gameObject);
+            Destroy(gameObject);
+            GameManager.Instance.AddScore();
+        }
+
+        if(collision.CompareTag("Bullet") || collision.CompareTag("BulletEnemy"))
         {
             Destroy(collision.gameObject);
             Destroy(gameObject);

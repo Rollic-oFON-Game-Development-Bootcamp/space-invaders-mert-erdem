@@ -9,22 +9,29 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform visual, cannon;
     [SerializeField] private GameObject bullet;
     [Header("Specs")]
-    [SerializeField] private float speed = 5f, fireDelta = 1f;
+    [SerializeField] private float speed = 5f;
+    [SerializeField] private float fireDelta = 1f;
     [SerializeField] private int health = 3;
     //inputs
     private Vector2 rootMousePos;
     private float inputHorizontal = 0;
 
-    private bool canFire = true;
+    private bool canFire = true, gameStarted = false;
 
+    private void Start()
+    {
+        GameManager.Instance.ActionGameStart += ActivateThePlayer;
+    }
 
     void Update()
     {
+        if (!gameStarted) return;
+
         HandleWithInput();
         Move();
 
         if (canFire)
-            StartCoroutine(Fire());
+            StartCoroutine(Fire());     
     }
 
     private void HandleWithInput()
@@ -55,11 +62,16 @@ public class PlayerController : MonoBehaviour
     private IEnumerator Fire()
     {
         canFire = false;
-        Instantiate(bullet, cannon.position, Quaternion.identity);
-
+        
         yield return new WaitForSeconds(fireDelta);
 
+        Instantiate(bullet, cannon.position, Quaternion.identity);
         canFire = true;
+    }
+
+    private void ActivateThePlayer()
+    {
+        gameStarted = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -73,7 +85,14 @@ public class PlayerController : MonoBehaviour
             if(health == 0)
             {
                 //game over
+                GameManager.Instance.ActionGameOver?.Invoke();
+                Destroy(gameObject);
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.ActionGameStart -= ActivateThePlayer;
     }
 }

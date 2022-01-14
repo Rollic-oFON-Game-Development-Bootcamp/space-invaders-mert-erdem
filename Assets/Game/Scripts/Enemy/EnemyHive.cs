@@ -14,9 +14,10 @@ public class EnemyHive : MonoBehaviour
     private bool canFire = true, directionChanging = false;
 
 
-    void Awake()
+    private void Start()
     {
         fallingDelta = enemyCollider.radius / 2;
+        GameManager.Instance.ActionGameOver += DestroyGameOver;
     }
 
     void Update()
@@ -48,11 +49,11 @@ public class EnemyHive : MonoBehaviour
     public IEnumerator OrderFire()
     {
         canFire = false;
-        var selectedEnemy = enemies[Random.Range(0, enemies.Count - 1)];
-        selectedEnemy.Fire();
-
+        
         yield return new WaitForSeconds(fireDelta);
 
+        var selectedEnemy = enemies[Random.Range(0, enemies.Count - 1)];
+        selectedEnemy.Fire();
         canFire = true;
     }
 
@@ -71,7 +72,12 @@ public class EnemyHive : MonoBehaviour
             Destroy(gameObject);
         }
 
-        speed += speedDelta;
+        speed += speedDelta;//bir düşman yok edildiğinde kümenin hızı artar
+    }
+
+    private void DestroyGameOver()
+    {
+        Destroy(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -84,6 +90,12 @@ public class EnemyHive : MonoBehaviour
         if(collision.CompareTag("Base"))
         {
             //game over
+            GameManager.Instance.ActionGameOver?.Invoke();
         }
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.ActionGameOver -= DestroyGameOver;
     }
 }
