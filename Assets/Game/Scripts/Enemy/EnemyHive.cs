@@ -17,7 +17,6 @@ public class EnemyHive : MonoBehaviour
     private void Start()
     {
         fallingDelta = enemyCollider.radius / 2;
-        GameManager.Instance.ActionGameOver += DestroyGameOver;
     }
 
     void Update()
@@ -33,12 +32,17 @@ public class EnemyHive : MonoBehaviour
         transform.Translate(Vector3.right * speed * Time.deltaTime);
     }
 
-    private IEnumerator ChangeDirection()
+    public void ChangeDirection()
+    {
+        if (!directionChanging)
+            StartCoroutine(ChangeDirectionEnumerator());
+    }
+    private IEnumerator ChangeDirectionEnumerator()
     {
         directionChanging = true;
         speed *= -1;
         speedDelta *= -1;
-        
+
         transform.transform.position -= new Vector3(0, fallingDelta, 0);
 
         yield return new WaitForEndOfFrame();
@@ -57,10 +61,7 @@ public class EnemyHive : MonoBehaviour
         canFire = true;
     }
 
-    public void JoinHive(Enemy enemy)
-    {
-        enemies.Add(enemy);
-    }
+    public void JoinHive(Enemy enemy) => enemies.Add(enemy);
 
     public void LeaveHive(Enemy enemy)
     {
@@ -73,29 +74,5 @@ public class EnemyHive : MonoBehaviour
         }
 
         speed += speedDelta;//bir düşman yok edildiğinde kümenin hızı artar
-    }
-
-    private void DestroyGameOver()
-    {
-        Destroy(gameObject);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Border") && !directionChanging)
-        {
-            StartCoroutine(ChangeDirection());
-        }
-
-        if(collision.CompareTag("Base"))
-        {
-            //game over
-            GameManager.Instance.ActionGameOver?.Invoke();
-        }
-    }
-
-    private void OnDestroy()
-    {
-        GameManager.Instance.ActionGameOver -= DestroyGameOver;
     }
 }

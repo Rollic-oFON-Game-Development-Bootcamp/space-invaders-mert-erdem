@@ -16,13 +16,6 @@ public class Bullet : MonoBehaviour
         if (collision.CompareTag("Border") || collision.CompareTag("Base") || collision.CompareTag("Shield"))
             Destroy(gameObject);
 
-        if (collision.CompareTag("Enemy") && gameObject.CompareTag("Bullet"))
-        {
-            Destroy(collision.gameObject);
-            Destroy(gameObject);
-            GameManager.Instance.AddScore();
-        }
-
         if(collision.CompareTag("Bullet") || collision.CompareTag("BulletEnemy"))
         {
             Destroy(collision.gameObject);

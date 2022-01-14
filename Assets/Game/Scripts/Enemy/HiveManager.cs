@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HiveManager : MonoBehaviour
@@ -11,8 +9,8 @@ public class HiveManager : MonoBehaviour
     [SerializeField] private Transform spawnPoint;
     private Vector3 firstSpawnPoint;
     private short startPosChangeCount = 0;
-
     public bool canSpawn;
+
 
     private void Awake()
     {
@@ -44,10 +42,7 @@ public class HiveManager : MonoBehaviour
         startPosChangeCount++;
     }
 
-    private void StopSpawning()
-    {
-        canSpawn = false;
-    }
+    private void StopSpawning() => canSpawn = false;
 
     private void OnDestroy()
     {

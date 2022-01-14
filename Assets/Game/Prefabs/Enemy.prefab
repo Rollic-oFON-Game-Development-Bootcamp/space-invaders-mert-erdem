@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8118218107710053189}
   - component: {fileID: 3751280848996468885}
   - component: {fileID: 2676178932900135440}
+  - component: {fileID: -4311104123540467329}
   - component: {fileID: 2158115142016329032}
   m_Layer: 0
   m_Name: Enemy
@@ -101,6 +102,27 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1
+--- !u!50 &-4311104123540467329
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773841064350357413}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!114 &2158115142016329032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,6 +138,9 @@ MonoBehaviour:
   enemyHive: {fileID: 0}
   cannon: {fileID: 363499456023366860}
   bullet: {fileID: 2448367440593305169, guid: 0bd165b8a4593455e9161fb8461e9685, type: 3}
+  hitSound: {fileID: 8300000, guid: 87e2452fe2c754248926c9a9ab93a467, type: 3}
+  spriteRenderer: {fileID: 3751280848996468885}
+  explosionSprite: {fileID: 21300000, guid: 20cc7aa77cf0c554eaf57b9dfce35c24, type: 3}
 --- !u!1 &3819056421979888118
 GameObject:
   m_ObjectHideFlags: 0

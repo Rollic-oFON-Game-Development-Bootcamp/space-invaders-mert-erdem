@@ -146,3 +146,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidBody: {fileID: -4970589765331947206}
   speed: 15
+  hitSound: {fileID: 8300000, guid: 87e2452fe2c754248926c9a9ab93a467, type: 3}

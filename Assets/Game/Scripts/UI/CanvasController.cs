@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class CanvasController : MonoBehaviour
 {
@@ -8,6 +9,11 @@ public class CanvasController : MonoBehaviour
 
     [SerializeField] private GameObject panelMenu, panelInGame, panelEndGame;
     [SerializeField] private TextMeshProUGUI textHealth, textScore, textEndGameScore, textHighScore;
+    [Header("Sound UI")]
+    [SerializeField] private Button buttonSound;
+    [SerializeField] private Sprite soundOn;
+    [SerializeField] private Sprite soundOff;
+
 
     private void Awake()
     {
@@ -21,6 +27,11 @@ public class CanvasController : MonoBehaviour
     {
         GameManager.Instance.ActionGameStart += SetInGameUI;
         GameManager.Instance.ActionGameOver += SetEndGameUI;
+
+        if (PlayerPrefs.GetInt("AUDIO", 1) == 1)
+            buttonSound.image.sprite = soundOn;
+        else
+            buttonSound.image.sprite = soundOff;
     }
 
     private void SetInGameUI()
@@ -56,6 +67,16 @@ public class CanvasController : MonoBehaviour
     public void RestartButtonPressed()
     {
         GameManager.Instance.RestartTheGame();
+    }
+
+    public void SoundButtonPressed()
+    {
+        if (PlayerPrefs.GetInt("AUDIO", 1) == 0)
+            buttonSound.image.sprite = soundOn;
+        else
+            buttonSound.image.sprite = soundOff;
+
+        GameManager.Instance.UpdateSoundOutput();
     }
 
     private void OnDestroy()

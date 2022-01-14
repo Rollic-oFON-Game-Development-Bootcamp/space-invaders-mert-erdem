@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
     private int score, scoreDelta = 20;
     public int Score => score;
 
+    private bool _gameOver;
+    public bool GameOver => _gameOver;
+
     private void Awake()
     {
         if (_instance == null)
@@ -21,8 +24,10 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        _gameOver = false;
         score = 0;
         ActionGameOver += SaveScore;
+        AudioListener.volume = PlayerPrefs.GetInt("AUDIO", 1);
     }
 
     public void AddScore()
@@ -33,6 +38,8 @@ public class GameManager : MonoBehaviour
 
     private void SaveScore()
     {
+        _gameOver = true;
+
         int highScore = PlayerPrefs.GetInt("HIGH_SCORE", 0);
 
         if (score > highScore)
@@ -44,8 +51,11 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    private void OnDestroy()
+    public void UpdateSoundOutput()
     {
-        ActionGameOver -= SaveScore;
+        AudioListener.volume = 1 - AudioListener.volume;
+        PlayerPrefs.SetInt("AUDIO", (int)AudioListener.volume);
     }
+
+    private void OnDestroy() => ActionGameOver -= SaveScore;
 }
